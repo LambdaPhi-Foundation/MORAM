@@ -1,0 +1,21 @@
+# 05-loops.mosm -- counting down with LOAD/STORE/JZ/JMP
+# Run from E:/MORAM:
+#   python -c "from moram import Moram; m=Moram(); m.run_text(open('examples/05-loops.mosm').read()); print(m.output(), m.view())"
+# Expected OUT: [3, 2, 1]  Deque: []
+
+TINSERT 3
+STORE 0          # MEM[0] = counter
+loop:
+LOAD 0           # [counter]
+JZ done          # peek: 0 means finished
+DROP_T           # drop the tested copy on the live path
+LOAD 0
+OUT              # emit the counter
+LOAD 0
+TINSERT 1
+SUB              # counter - 1
+STORE 0
+JMP loop
+done:
+DROP_T           # drop the final 0
+HALT

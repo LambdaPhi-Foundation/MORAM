@@ -1,0 +1,51 @@
+# 04-compare-branch.mosm -- EQ/LT and non-destructive JZ/JNZ/JMP
+# Run from E:/MORAM:
+#   python -c "from moram import Moram; m=Moram(); m.run_text(open('examples/04-compare-branch.mosm').read()); print(m.output(), m.view())"
+# Expected OUT: [1, 1, 0, 7, 8, 1]  Deque: []
+# Note: JZ/JNZ only peek -- each path must DROP_T the tested word itself.
+
+TINSERT 5
+TINSERT 5
+EQ
+OUT              # -> 1
+TINSERT 3
+TINSERT 9
+LT
+OUT              # -> 1
+TINSERT 9
+TINSERT 3
+LT
+OUT              # -> 0
+
+# branch taken (0 == 0):
+TINSERT 0
+JZ waszero
+TINSERT 99
+OUT
+JMP done
+waszero:
+DROP_T
+TINSERT 7
+OUT              # -> 7
+done:
+
+# branch taken (4 != 0):
+TINSERT 4
+JNZ wasnonzero
+TINSERT 98
+OUT
+JMP done2
+wasnonzero:
+DROP_T
+TINSERT 8
+OUT              # -> 8
+done2:
+
+# unconditional skip:
+JMP skip
+TINSERT 100
+OUT
+skip:
+TINSERT 1
+OUT              # -> 1 (100 never ran)
+HALT

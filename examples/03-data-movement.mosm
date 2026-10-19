@@ -1,0 +1,24 @@
+# 03-data-movement.mosm -- DUP_T/SWAP_T/OVER_T and the head end
+# Run from E:/MORAM:
+#   python -c "from moram import Moram; m=Moram(); pops=m.run_text(open('examples/03-data-movement.mosm').read()); print(m.output(), pops, m.view())"
+# Expected OUT: [5, 5, 9, 7, 9, 3]  Pops: [1]  Deque: []
+
+TINSERT 5
+DUP_T            # [5 5]
+OUT              # -> 5, D [5]
+TINSERT 9        # [5 9]
+SWAP_T           # [9 5]
+OUT              # -> 5, D [9]
+TINSERT 7        # [9 7]
+OVER_T           # copy 2nd-to-tail -> [9 7 9]
+OUT              # -> 9
+OUT              # -> 7
+OUT              # -> 9, D []
+
+TINSERT 1
+TINSERT 2
+TINSERT 3        # D [1 2 3]
+POP_H            # head value 1 goes to the host pops list
+DROP_H           # discard the new head (2); D [3]
+OUT              # -> 3, D []
+HALT

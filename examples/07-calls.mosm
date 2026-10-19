@@ -1,0 +1,29 @@
+# 07-calls.mosm -- CALL/RET with return addresses on their own stack
+# Run from E:/MORAM:
+#   python -c "from moram import Moram; m=Moram(); m.run_text(open('examples/07-calls.mosm').read()); print(m.output(), m.view())"
+# Expected OUT: [30, 7]  Deque: []
+
+# single call: 10 + 20
+TINSERT 10
+TINSERT 20
+CALL sum2
+OUT              # -> 30
+JMP main2        # skip over the function bodies
+sum2:
+ADD
+RET
+main2:
+
+# nested calls: 5 + 1 + 1
+TINSERT 5
+CALL twice
+OUT              # -> 7
+HALT
+twice:
+CALL once
+CALL once
+RET
+once:
+TINSERT 1
+ADD
+RET

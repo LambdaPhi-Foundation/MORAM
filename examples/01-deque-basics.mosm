@@ -1,0 +1,19 @@
+# 01-deque-basics.mosm -- inserts at both ends, tail removals, FLIP
+# Run from E:/MORAM:
+#   python -c "from moram import Moram; m=Moram(); m.run_text(open('examples/01-deque-basics.mosm').read()); print(m.output(), m.view())"
+# Expected OUT: [3]  Deque: [2]
+# (ROT is an alias of FLIP, REMOVE an alias of DROP_T.)
+
+TINSERT 1
+TINSERT 2
+TINSERT 3        # D = [1 2 3]
+HINSERT 0        # D = [0 1 2 3]
+FLIP             # labels swap; view is now [3 2 1 0]
+DROP_T           # drops the view-tail (0); view [3 2 1]
+FLIP             # back to normal orientation; view [1 2 3]
+OUT              # OUT [3], D [1 2]
+
+# alias spellings of the same ideas:
+ROT              # = FLIP; view [2 1]
+REMOVE           # = DROP_T; drops view-tail (1); view [2]
+HALT

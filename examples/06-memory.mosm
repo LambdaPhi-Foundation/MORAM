@@ -1,0 +1,16 @@
+# 06-memory.mosm -- flat memory: STORE consumes, LOAD pushes, unset reads 0
+# Run from E:/MORAM:
+#   python -c "from moram import Moram; m=Moram(); m.run_text(open('examples/06-memory.mosm').read()); print(m.output(), m.view(), m.mem)"
+# Expected OUT: [42, 0, 1]  Deque: []  MEM: {5: 1}
+
+TINSERT 42
+STORE 5          # MEM[5] = 42 (STORE pops the tail)
+LOAD 5
+OUT              # -> 42
+LOAD 777         # never written -> 0
+OUT              # -> 0
+TINSERT 1
+STORE 5          # overwrite MEM[5]
+LOAD 5
+OUT              # -> 1
+HALT

@@ -1,0 +1,11 @@
+# 08-io.mosm -- IN reads host words to the tail, OUT emits the tail
+# Run from E:/MORAM (note the inputs=[20, 22] argument):
+#   python -c "from moram import Moram; m=Moram(); m.run_text(open('examples/08-io.mosm').read(), inputs=[20, 22]); print(m.output(), m.view())"
+# Expected OUT: [42]  Deque: []
+# IN with an empty queue raises the IO_EMPTY trap instead.
+
+IN               # -> [20]
+IN               # -> [20 22]
+ADD              # -> [42]
+OUT              # -> 42
+HALT

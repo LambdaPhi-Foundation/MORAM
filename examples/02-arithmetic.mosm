@@ -1,0 +1,40 @@
+# 02-arithmetic.mosm -- ADD/SUB/MUL/DIV/MOD/NEG and the SUBxFLIP sign flip
+# Run from E:/MORAM:
+#   python -c "from moram import Moram; m=Moram(); m.run_text(open('examples/02-arithmetic.mosm').read()); print(m.output(), m.view())"
+# Expected OUT: [26, 14, 120, 3, 2, -5, 7, -7]  Deque: []
+
+TINSERT 20
+TINSERT 6
+ADD              # 20+6
+OUT              # -> 26
+TINSERT 20
+TINSERT 6
+SUB              # 20-6 (next-to-tail minus tail-top)
+OUT              # -> 14
+TINSERT 20
+TINSERT 6
+MUL
+OUT              # -> 120
+TINSERT 20
+TINSERT 6
+DIV              # truncates toward zero
+OUT              # -> 3
+TINSERT 20
+TINSERT 6
+MOD              # C-style remainder
+OUT              # -> 2
+TINSERT 5
+NEG
+OUT              # -> -5
+
+# SUB reads the *current* tail, so FLIP negates it:
+TINSERT 10
+TINSERT 3
+SUB
+OUT              # -> 7
+FLIP             # tail is now the left end ...
+TINSERT 3
+TINSERT 10
+SUB              # ... pops 10 then 3 -> 3-10
+OUT              # -> -7
+HALT
